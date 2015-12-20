@@ -2,67 +2,40 @@
 <html>
 
 <head>
-    <title>Socket.IO chat</title>
-    <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    
-    body {
-        font: 13px Helvetica, Arial;
-    }
-    
-    form {
-        background: #000;
-        padding: 3px;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-    
-    form input {
-        border: 0;
-        padding: 10px;
-        width: 90%;
-        margin-right: .5%;
-    }
-    
-    form button {
-        width: 9%;
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
-    }
-    
-    #messages {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-    
-    #messages li {
-        padding: 5px 10px;
-    }
-    
-    #messages li:nth-child(odd) {
-        background: #eee;
-    }
-    </style>
+    <title>Uranus</title>
+    <meta charset='utf-8'>
+    <link rel="stylesheet" type="text/css" href="css/global.css" />
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
 </head>
 
-<body>
-    <ul id="messages"></ul>
-    <form action="">
-        <input id="m" autocomplete="off" />
-        <button>Send</button>
-    </form>
-    <script src="js/socket.io.js"></script>
-    <script>
-    var socket = io("http://localhost:3000");
-    console.log(socket);
-    </script>
+<body ng-app="uranus">
+    <div class="wrap" id="chat" ng-controller="ChatCtrl">
+        <div class="left">
+            <div class="user-list">
+                <li ng-repeat="user in users" ng-click="switch(user)">
+                    {{user.name}}
+                </li>
+            </div>
+        </div>
+        <div class="right">
+            <div class="header">
+                {{currentUser.name}}
+            </div>
+            <div class="messages">
+                <li ng-repeat="message in messages track by $index">
+                    {{message.fromUser.name}}：{{message.content}}
+                </li>
+            </div>
+            <form ng-submit="send();">
+                <input id="m" autocomplete="off" ng-model="sendMessage" />
+                <button>Send</button>
+            </form>
+        </div>
+    </div>
 </body>
+<script type="text/javascript" src="js/socket.io.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
 
 </html>
