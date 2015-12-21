@@ -137,7 +137,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
 }]);
 
 uranus.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
-    socket = io("http://localhost:3000");
+    socket = io("http://139.196.192.129:3000");
     $scope.user = {};
     $scope.submit = function() {
         socket.emit('change-name', $scope.user.name);
