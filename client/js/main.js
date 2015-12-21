@@ -1,40 +1,88 @@
-var uranus = angular.module('uranus', []);
-uranus.controller('ChatCtrl', ['$scope', function($scope) {
-    var socket = io("http://localhost:3000");
+var socket = null;
+var uranus = angular.module('uranus', ['ui.router'])
+    .config(function($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('login', {
+                url: '/login',
+                templateUrl: 'templates/login.html',
+                controller: 'LoginCtrl'
+            })
+            .state('chat', {
+                url: '/chat',
+                templateUrl: 'templates/chat.html',
+                controller: 'ChatCtrl'
+            });
+        $urlRouterProvider.otherwise('/login');
+    });
 
-    $scope.messages = [];
+
+uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
+
+    if (socket == null) {
+        $state.go('login');
+        return;
+    }
+
+    $scope.totalUnread = 0;
+    $scope.tab = 'users';
     $scope.users = [];
-
     $scope.me = null;
-    $scope.currentUser = null;
-    $scope.userMessages = [];
+    $scope.currentDialog = {
+        uid: null,
+        name: null,
+        msgs: [],
+        unread: 0
+    };
+    $scope.dialogs = [];
 
-    $scope.switch = function(user) {
-        //切换当前用户
-        $scope.currentUser = user;
-        //寻找userMessage
-        $scope.messages = getUserMessage($scope.currentUser.id);
+    //切换当前用户
+    $scope.switchUser = function(user) {
+        //根据userid找dialog
+        $scope.currentDialog = getDialog({
+            uid: user.id,
+            name: user.name,
+            msgs: [],
+            unread: 0
+        });
+        $scope.tab = 'dialogs';
+    };
+
+    //切换当前会话
+    $scope.switchDialog = function(dialog) {
+        $scope.currentDialog = getDialog(dialog);
     };
 
     $scope.send = function() {
-        socket.emit('chat-message', $scope.currentUser.id, {fromUser: $scope.me, content: $scope.sendMessage});
+        var msg = {
+            fromUser: $scope.me,
+            content: $scope.sendMessage
+        };
+        //如果不是自己和自己聊天，要把msg加入
+        if ($scope.currentDialog.uid != $scope.me.id) {
+            updateDialogs($scope.currentDialog, msg, false);
+        }
+        socket.emit('chat-message', $scope.currentDialog.uid, msg);
     };
 
-    socket.on('init-success', function (user){
+    //获取用户信息
+    socket.emit('get-user-info');
+    socket.emit('get-user-list');
+
+    socket.on('user-info', function(user) {
         $scope.me = user;
-        $scope.$apply(function() {
-            $scope.currentUser = user;
-        });
     });
 
+    //收到信息
     socket.on('chat-message', function(msg) {
-        console.log(msg);
-        updateUserMessages(msg.fromUser.id, msg);
-        $scope.$apply(function() {
-            if (msg.fromUser.id == $scope.currentUser.id) {
-                $scope.messages.push(msg);
-            }
-        });
+        var defaultDialog = {
+            uid: msg.fromUser.id,
+            name: msg.fromUser.name,
+            msgs: [msg],
+            unread: 1
+        }
+        $scope.$apply(function (){
+            updateDialogs(defaultDialog, msg, true);
+        })
     });
 
     socket.on('user-list', function(users) {
@@ -45,32 +93,54 @@ uranus.controller('ChatCtrl', ['$scope', function($scope) {
 
 
     //根据uid来更新messages
-    function updateUserMessages(id, msg) {
+    function updateDialogs(dialog, msg, unread) {
         var updated = false;
-        $scope.userMessages.forEach(function (userMessage){
-            if (userMessage.uid == id) {
-                userMessage.message.push(msg);
+        $scope.dialogs.forEach(function(d) {
+            if (d.uid == dialog.uid) {
+                d.msgs.push(msg);
+                if (unread) {
+                    d.unread++;
+                }
                 updated = true;
             }
         });
+        //如果没有则创建diaog
         if (!updated) {
-            $scope.userMessages.push({
-                uid: id,
-                message: [msg]
-            });
+            $scope.dialogs.push(dialog);
         }
     };
 
-    function getUserMessage(id) {
-        var messages = [];
-        $scope.userMessages.forEach(function (userMessage){
-            if (userMessage.uid == id) {
-                messages = userMessage.message;
+    //获取dialog
+    function getDialog(dialog) {
+        var hasDialog = false;
+        $scope.dialogs.forEach(function(d) {
+            if (d.uid == dialog.uid) {
+                hasDialog = true;
+                //每次寻找时都要去掉未读消息
+                d.unread = 0;
+                dialog = d;
             }
         });
-        //找不到就返回空
-        return messages;
+        //如果没有会话则创建
+        if (!hasDialog) {
+            $scope.dialogs.push(dialog);
+        }
+        return dialog;
     };
+
+    $scope.$watch('dialogs', function (newV, oldV){
+        $scope.totalUnread = 0;
+        $scope.dialogs.forEach(function (d){
+            $scope.totalUnread += d.unread;
+        });
+    }, true);
 }]);
 
-
+uranus.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
+    socket = io("http://localhost:3000");
+    $scope.user = {};
+    $scope.submit = function() {
+        socket.emit('change-name', $scope.user.name);
+        $state.go('chat');
+    };
+}]);

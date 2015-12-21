@@ -30,6 +30,6 @@ gulp.task('less', function(done) {
       .on('end', done);
 });
 
-gulp.task('default', function() {
+gulp.task('default', ['less'], function() {
   gulp.watch(paths.less, ['less']);
 });

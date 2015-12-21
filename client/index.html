@@ -7,32 +7,11 @@
     <link rel="stylesheet" type="text/css" href="css/base.min.css">
 </head>
 <body ng-app="uranus">
-    <div class="wrap" id="chat" ng-controller="ChatCtrl">
-        <div class="left">
-            <div class="user-list">
-                <li ng-repeat="user in users" ng-click="switch(user)">
-                    {{user.name}}
-                </li>
-            </div>
-        </div>
-        <div class="right">
-            <div class="header">
-                {{currentUser.name}}
-            </div>
-            <div class="messages">
-                <li ng-repeat="message in messages track by $index">
-                    {{message.fromUser.name}}：{{message.content}}
-                </li>
-            </div>
-            <form ng-submit="send();">
-                <input id="m" autocomplete="off" ng-model="sendMessage" />
-                <button>Send</button>
-            </form>
-        </div>
-    </div>
+    <div class="outer-wrap" ui-view></div>
 </body>
 <script type="text/javascript" src="js/socket.io.js"></script>
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 </html>

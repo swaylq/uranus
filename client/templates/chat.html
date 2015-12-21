@@ -1,0 +1,38 @@
+<div class="wrap" id="chat">
+    <div class="left">
+        <div class="user-info">
+            <span>您的昵称：</span>{{me.name}}
+        </div>
+        <div class="tab">
+            <div class="users" ng-click="tab='users'" ng-class="{'active': tab=='users'}">用户</div>
+            <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
+                会话
+                <div class="unread" ng-show="totalUnread > 0"></div>
+            </div>
+        </div>
+        <div class="user-list" ng-show="tab=='users'">
+            <li ng-repeat="user in users" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
+                {{user.name}}
+            </li>
+        </div>
+        <div class="dialog-list" ng-show="tab=='dialogs'">
+            <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.uid == currentDialog.uid}">
+                {{dialog.name}}
+                <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
+            </li>
+        </div>
+    </div>
+    <div class="right">
+        <div class="header">
+            {{currentDialog.name}}
+        </div>
+        <div class="messages">
+            <li ng-repeat="message in currentDialog.msgs track by $index">
+                {{message.fromUser.name}}：{{message.content}}
+            </li>
+        </div>`
+        <form ng-submit="send();">
+            <input autocomplete="off" ng-model="sendMessage"></input>
+        </form>
+    </div>
+</div>

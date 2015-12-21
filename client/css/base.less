@@ -1,3 +1,27 @@
 @import "normalize.less";
 @import "chat.less";
 @import "login.less";
+html,
+body {
+    height: 100%;
+}
+
+.outer-wrap {
+    width: 1080px;
+    margin: auto;
+    height: 100%;
+}
+
+.wrap {
+    height: 100%;
+}
+
+.wrap:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+div, p, li, a {
+    font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+}

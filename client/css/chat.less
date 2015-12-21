@@ -1,53 +1,136 @@
+@blackBorder: 1px solid rgb(10, 10, 10);
+@grayBorder: 1px solid rgb(213, 213, 213);
+@unreadColor: red;
+
+.clear-both {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.text-center {
+    text-align: center;
+}
+
 #chat {
     li {
         list-style: none;
     }
-    html,
-    body {
-        height: 100%;
-    }
-    .wrap {
-        height: 100%;
-    }
-    .wrap:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
     .left {
+        color: white;
+        background-color: #2e3238;
         float: left;
-        width: 28%;
+        width: 29%;
+        height: 100%;
+        .tab {
+            height: 40px;
+            line-height: 40px;
+            border-top: @blackBorder;
+            border-bottom: @blackBorder;
+            div {
+                position: relative;
+                cursor: pointer;
+                float: left;
+                width: 50%;
+                .text-center;
+                &.active {
+                    background-color: rgb(100, 100, 100);
+                }
+                .unread {
+                    position: absolute;
+                    width: 5px;
+                    height: 5px;
+                    border-radius: 5px;
+                    background-color: @unreadColor;
+                    top: 8px;
+                    right: 8px;
+                }
+            }
+            &:after {
+                .clear-both;
+            }
+        }
+        .user-info {
+            height: 60px;
+            line-height: 60px;
+            padding: 0px 15px;
+        }
+        .user-list {
+            li {
+                display: block;
+                position: relative;
+                cursor: pointer;
+                height: 50px;
+                line-height: 50px;
+                padding: 0px 15px;
+                border-bottom: @blackBorder;
+                &.active {
+                    background-color: rgb(100, 100, 100);
+                }
+            }
+        }
+        .dialog-list {
+            li {
+                display: block;
+                position: relative;
+                cursor: pointer;
+                height: 50px;
+                line-height: 50px;
+                padding: 0px 15px;
+                border-bottom: @blackBorder;
+                &.active {
+                    background-color: rgb(100, 100, 100);
+                }
+                .unread {
+                    position: absolute;
+                    right: 5px;
+                    top: 15px;
+                    bottom: 15px;
+                    width: 20px;
+                    line-height: 20px;
+                    border-radius: 5px;
+                    background-color: @unreadColor;
+                    .text-center;
+                }
+            }
+        }
     }
     .right {
         position: relative;
-        border-left: 1px solid rgb(213, 213, 213);
-        float: right;
+        float: left;
         width: 70%;
         height: 100%;
-    }
-    .right > .header {
-        padding: 5px 10px;
-        border-bottom: 1px solid rgb(213, 213, 213);
-    }
-    .right > .messages > li {
-        padding: 5px 10px;
+        .header {
+            height: 50px;
+            line-height: 50px;
+            padding: 5px 10px;
+            border-bottom: @grayBorder;
+            .text-center;
+        }
+        .messages {
+            li {
+                padding: 5px 10px;
+            }
+        }
     }
     form {
         position: absolute;
-        bottom: 0px;
-        background: #000;
-        padding: 5px;
+        bottom: 1px;
+        background: white;
+        border-top: @grayBorder;
         width: 100%;
-    }
-    form input {
-        border: 0;
-        padding: 10px;
-        width: 85%;
-    }
-    form button {
-        width: 9%;
-        background: rgb(130, 224, 255);
-        border: none;
-        padding: 10px;
+        height: 20%;
+        input {
+            height: 100%;
+            width: 100%;
+            padding: 5px;
+            border: none;
+            box-shadow: none;
+            &:focus {
+                box-shadow: none;
+                border: none;
+                outline: none;
+            }
+        }
     }
 }
