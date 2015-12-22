@@ -31,8 +31,13 @@
                 {{message.fromUser.name}}：{{message.content}}
             </li>
         </div>`
-        <form ng-submit="send();">
-            <input autocomplete="off" ng-model="sendMessage"></input>
-        </form>
+        <div class="send">
+            <form>
+                <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
+                <div class="extra">
+                    <a class="button" ng-click="send();" type="submit">发送</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

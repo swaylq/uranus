@@ -1,7 +1,7 @@
 @blackBorder: 1px solid rgb(10, 10, 10);
 @grayBorder: 1px solid rgb(213, 213, 213);
+@whiteBorder: 2px solid white;
 @unreadColor: red;
-
 .clear-both {
     content: "";
     display: table;
@@ -13,21 +13,28 @@
 }
 
 #chat {
+    box-shadow: 1px 1px 10px 3px #91D1EA;
     li {
         list-style: none;
     }
     .left {
         color: white;
-        background-color: #2e3238;
+        background-color: @deepGray;
         float: left;
-        width: 29%;
+        width: 260px;
         height: 100%;
+        .user-info {
+            height: 60px;
+            line-height: 60px;
+            padding: 0px 15px;
+            text-align: center;
+            font-size: 14px;
+        }
         .tab {
             height: 40px;
             line-height: 40px;
-            border-top: @blackBorder;
-            border-bottom: @blackBorder;
             div {
+                font-size: 14px;
                 position: relative;
                 cursor: pointer;
                 float: left;
@@ -50,11 +57,6 @@
                 .clear-both;
             }
         }
-        .user-info {
-            height: 60px;
-            line-height: 60px;
-            padding: 0px 15px;
-        }
         .user-list {
             li {
                 display: block;
@@ -63,7 +65,6 @@
                 height: 50px;
                 line-height: 50px;
                 padding: 0px 15px;
-                border-bottom: @blackBorder;
                 &.active {
                     background-color: rgb(100, 100, 100);
                 }
@@ -77,7 +78,6 @@
                 height: 50px;
                 line-height: 50px;
                 padding: 0px 15px;
-                border-bottom: @blackBorder;
                 &.active {
                     background-color: rgb(100, 100, 100);
                 }
@@ -96,15 +96,17 @@
         }
     }
     .right {
+        background-color: @shallowGray;
         position: relative;
         float: left;
-        width: 70%;
+        width: 640px;
         height: 100%;
         .header {
+            font-size: 14px;
             height: 50px;
             line-height: 50px;
-            padding: 5px 10px;
-            border-bottom: @grayBorder;
+            padding: 0px 10px;
+            border-bottom: @whiteBorder;
             .text-center;
         }
         .messages {
@@ -112,24 +114,49 @@
                 padding: 5px 10px;
             }
         }
-    }
-    form {
-        position: absolute;
-        bottom: 1px;
-        background: white;
-        border-top: @grayBorder;
-        width: 100%;
-        height: 20%;
-        input {
-            height: 100%;
-            width: 100%;
-            padding: 5px;
-            border: none;
-            box-shadow: none;
-            &:focus {
-                box-shadow: none;
-                border: none;
-                outline: none;
+        .send {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            height: 150px;
+            border-top: @whiteBorder;
+            padding: 20px 30px;
+            form {
+                position: relative;
+                textarea {
+                    width: 100%;
+                    height: 80px;
+                    background: white;
+                    padding: 20px;
+                    border: none;
+                    box-shadow: none;
+                    outline: none;
+                    resize: none;
+                    color: @textShallowGray;
+                    font-size: 13px;
+                    &:focus {
+                        border: none;
+                        box-shadow: none;
+                        outline: none;
+                    }
+                }
+                .extra {
+                    margin-top: 10px;
+                    .button {
+                        cursor: pointer;
+                        float: right;
+                        font-size: 14px;
+                        color: @textBlue;
+                        font-weight: bold;
+                        &:hover {
+                            color: @bgBlue;
+                        }
+                    }
+                    &:after {
+                        .clear-both;
+                    }
+                }
             }
         }
     }

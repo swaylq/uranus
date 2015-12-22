@@ -38,6 +38,25 @@ io.on('connection', function(socket) {
         io.emit('user-list', users);
     });
 
+    //加入讨论组
+    socket.on('join-dialog', function (did){
+        socket.join(did);
+    });
+
+    //创建讨论组
+    socket.on('create-dialog', function (users){
+        var did = "";
+
+        //拼接dialogID
+        users.forEach(function (user){
+            did += user.id;
+        });
+        //将dialogID传入所有的user
+        user.forEach(function (user){
+            io.to(user.id).emit('join-dialog', did);
+        });
+    });
+
     socket.on('chat-message', function(id, msg) {
         io.to(id).emit('chat-message', msg);
     });
