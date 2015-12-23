@@ -353,6 +353,70 @@ td,
 th {
   padding: 0;
 }
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.one-message {
+  margin-bottom: 25px;
+}
+.one-message .title {
+  position: relative;
+  font-size: 12px;
+}
+.one-message .title div {
+  height: 18px;
+  line-height: 18px;
+  float: left;
+}
+.one-message .title div.point {
+  margin-top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 6px;
+  background-color: #62BF6E;
+}
+.one-message .title div.user-name {
+  color: #444652;
+  margin: 0px 10px 0px 15px;
+}
+.one-message .title div.send-time {
+  color: #C6CBD1;
+}
+.one-message .title:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.one-message .arrow-up {
+  border-bottom: 8px solid #62BF6E;
+  margin: 8px 8px 0px 8px;
+}
+.one-message .body {
+  width: 270px;
+  border-radius: 3px;
+  overflow: hidden;
+  padding: 15px 20px;
+  color: white;
+  background-color: #62BF6E;
+  font-size: 12px;
+}
+.one-message.my-message .title div {
+  float: right;
+}
+.one-message.my-message .title.point {
+  background-color: #85C6EE;
+}
+.one-message.my-message .arrow-up {
+  border-bottom: 8px solid #85C6EE;
+  float: right;
+}
+.one-message.my-message .body {
+  background-color: #85C6EE;
+  float: right;
+}
 .clear-both {
   content: "";
   display: table;
@@ -362,6 +426,8 @@ th {
   text-align: center;
 }
 #chat {
+  border-radius: 3px;
+  overflow: hidden;
   box-shadow: 1px 1px 10px 3px #91D1EA;
 }
 #chat li {
@@ -458,8 +524,9 @@ th {
   border-bottom: 2px solid white;
   text-align: center;
 }
-#chat .right .messages li {
-  padding: 5px 10px;
+#chat .right .messages {
+  overflow-y: scroll;
+  padding: 10px 25px;
 }
 #chat .right .send {
   position: absolute;
@@ -468,7 +535,7 @@ th {
   right: 0px;
   height: 150px;
   border-top: 2px solid white;
-  padding: 20px 30px;
+  padding: 20px 25px;
 }
 #chat .right .send form {
   position: relative;
@@ -523,7 +590,6 @@ body {
   margin: auto;
   height: 100%;
   padding: 25px 0px;
-  border-radius: 5px;
 }
 .wrap {
   height: 100%;

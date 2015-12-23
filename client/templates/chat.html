@@ -27,10 +27,26 @@
             {{currentDialog.name}}
         </div>
         <div class="messages">
-            <li ng-repeat="message in currentDialog.msgs track by $index">
-                {{message.fromUser.name}}：{{message.content}}
+            <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
+                <div class="title">
+                    <div class="point">
+                    </div>
+                    <div class="user-name">
+                        {{message.fromUser.name}}
+                    </div>
+                    <div class="send-time">
+                        {{message.time}}
+                    </div>
+                </div>
+                <div class="arrow-up">
+                </div>
+                <div class="clear-both"></div>
+                <div class="body">
+                    {{message.content}}
+                </div>
+                <div class="clear-both"></div>
             </li>
-        </div>`
+        </div>
         <div class="send">
             <form>
                 <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>

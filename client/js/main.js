@@ -17,7 +17,7 @@ var uranus = angular.module('uranus', ['ui.router'])
 
 
 uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
-
+    moment.locale('zh-cn');
     if (socket == null) {
         $state.go('login');
         return;
@@ -55,13 +55,16 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
     $scope.send = function() {
         var msg = {
             fromUser: $scope.me,
-            content: $scope.sendMessage
+            content: $scope.sendMessage,
+            time: moment(new Date()).format("a h:mm:ss")
         };
         //如果不是自己和自己聊天，要把msg加入
         if ($scope.currentDialog.uid != $scope.me.id) {
             updateDialogs($scope.currentDialog, msg, false);
         }
         socket.emit('chat-message', $scope.currentDialog.uid, msg);
+
+        $scope.sendMessage = "";
     };
 
     //获取用户信息
@@ -74,6 +77,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
 
     //收到信息
     socket.on('chat-message', function(msg) {
+        console.log(msg);
         var defaultDialog = {
             uid: msg.fromUser.id,
             name: msg.fromUser.name,
@@ -90,7 +94,6 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
             $scope.users = users;
         })
     });
-
 
     //根据uid来更新messages
     function updateDialogs(dialog, msg, unread) {

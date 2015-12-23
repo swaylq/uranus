@@ -1,7 +1,4 @@
-@blackBorder: 1px solid rgb(10, 10, 10);
-@grayBorder: 1px solid rgb(213, 213, 213);
-@whiteBorder: 2px solid white;
-@unreadColor: red;
+@import 'message.less';
 .clear-both {
     content: "";
     display: table;
@@ -13,6 +10,8 @@
 }
 
 #chat {
+    border-radius: 3px;
+    overflow: hidden;
     box-shadow: 1px 1px 10px 3px #91D1EA;
     li {
         list-style: none;
@@ -110,9 +109,8 @@
             .text-center;
         }
         .messages {
-            li {
-                padding: 5px 10px;
-            }
+            overflow-y: scroll;
+            padding: 10px 25px;
         }
         .send {
             position: absolute;
@@ -121,7 +119,7 @@
             right: 0px;
             height: 150px;
             border-top: @whiteBorder;
-            padding: 20px 30px;
+            padding: 20px 25px;
             form {
                 position: relative;
                 textarea {
