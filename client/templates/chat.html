@@ -8,63 +8,96 @@
         <div class="tab">
             <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
                 <i class="fa fa-commenting"></i>
-                <!--                 <div class="unread" ng-show="totalUnread > 0"></div>
- --></div>
-            <div class="users" ng-click="tab='users'" ng-class="{'active': tab=='users'}">
+                <div class="unread" ng-show="totalUnread > 0"></div>
+            </div>
+            <div class="users" ng-click="tab='users';hasNewUser=false;" ng-class="{'active': tab=='users'}">
                 <i class="fa fa-user"></i>
+                <div class="unread" ng-show="hasNewUser"></div>
             </div>
         </div>
     </div>
     <div class="left">
         <div class="user-list" ng-show="tab=='users'">
+            <div class="user-num">
+                在线人数:&nbsp;&nbsp;{{users.length}}&nbsp;人
+            </div>
+            <div class="search">
+                <input type="text" placeholder="搜索" ng-model="searchContent">
+                <i class="fa fa-search"></i>
+            </div>
             <li ng-repeat="user in users" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
-                {{user.name}}
+                <div class="avatar">
+                    <img src="{{user.avatar}}" />
+                </div>
+                <div class="name">
+                    {{user.name}}
+                </div>
             </li>
         </div>
         <div class="dialog-list" ng-show="tab=='dialogs'">
             <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.uid == currentDialog.uid}">
-                {{dialog.name}}
+                <div class="avatar">
+                    <img src="{{dialog.avatar}}" />
+                </div>
+                <div class="name">
+                    {{dialog.name}}
+                </div>
                 <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
             </li>
         </div>
     </div>
     <div class="right">
-        <div class="header">
-            <div class="dialog-avatar">
-                <img src="{{currentDialog.avatar}}">
+        <div class="dialog-content" ng-show="tab=='dialogs'">
+            <div class="header">
+                <div class="dialog-avatar">
+                    <img src="{{currentDialog.avatar}}">
+                </div>
+                <div class="dialog-name">
+                    {{currentDialog.name}}
+                </div>
             </div>
-            <div class="dialog-name">
-                {{currentDialog.name}}
+            <div class="messages">
+                <ul class="messages-list">
+                    <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
+                        <div class="title">
+                            <div class="point">
+                            </div>
+                            <div class="user-name">
+                                {{message.fromUser.name}}
+                            </div>
+                            <div class="send-time">
+                                {{message.time}}
+                            </div>
+                        </div>
+                        <div class="arrow-up">
+                        </div>
+                        <div class="clear-both"></div>
+                        <div class="body">
+                            {{message.content}}
+                        </div>
+                        <div class="clear-both"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="send">
+                <form>
+                    <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
+                    <div class="extra">
+                        <a class="button" ng-click="send();" type="submit">发送</a>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="messages">
-            <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
-                <div class="title">
-                    <div class="point">
-                    </div>
-                    <div class="user-name">
-                        {{message.fromUser.name}}
-                    </div>
-                    <div class="send-time">
-                        {{message.time}}
-                    </div>
-                </div>
-                <div class="arrow-up">
-                </div>
-                <div class="clear-both"></div>
-                <div class="body">
-                    {{message.content}}
-                </div>
-                <div class="clear-both"></div>
-            </li>
-        </div>
-        <div class="send">
-            <form>
-                <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
-                <div class="extra">
-                    <a class="button" ng-click="send();" type="submit">发送</a>
-                </div>
-            </form>
+        <div class="user-content" ng-show="tab=='users'">
+            <div class="user-avatar">
+                <img src="{{currentUser.avatar}}"/>
+            </div>
+            <div class="user-name">
+                {{currentUser.name}}
+            </div>
+            <div ng-click="switchDialogWithUser()" class="dialog-button">
+                发消息
+            </div>
         </div>
     </div>
 </div>

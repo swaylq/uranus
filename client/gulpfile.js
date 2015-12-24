@@ -12,6 +12,7 @@ var paths = {
 
 function handleError(err) {
     console.log(err.toString());
+    this.emit('end');
 }
 
 gulp.task('less', function(done) {
