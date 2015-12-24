@@ -1,3 +1,7 @@
+function getRandomNum() {
+    return parseInt(Math.random() * 11 + 1, 10);
+}
+
 var socket = null;
 var uranus = angular.module('uranus', ['ui.router'])
     .config(function($stateProvider, $urlRouterProvider) {
@@ -28,6 +32,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
     $scope.users = [];
     $scope.me = null;
     $scope.currentDialog = {
+        avatar: null,
         uid: null,
         name: null,
         msgs: [],
@@ -39,6 +44,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
     $scope.switchUser = function(user) {
         //根据userid找dialog
         $scope.currentDialog = getDialog({
+            avatar: user.avatar,
             uid: user.id,
             name: user.name,
             msgs: [],
@@ -72,6 +78,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', function($scope, $state) {
     socket.emit('get-user-list');
 
     socket.on('user-info', function(user) {
+        console.log(user);
         $scope.me = user;
     });
 
@@ -143,7 +150,8 @@ uranus.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
     socket = io("http://localhost:3000");
     $scope.user = {};
     $scope.submit = function() {
-        socket.emit('change-name', $scope.user.name);
+        $scope.user.avatar = 'images/default' + getRandomNum() + '.jpg';
+        socket.emit('register', $scope.user);
         $state.go('chat');
     };
 }]);

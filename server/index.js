@@ -13,7 +13,7 @@ io.on('connection', function(socket) {
     //用户序号
     var index = -1;
     //处理新用户
-    var user = {name: "vistor-" + socket.id, id: socket.id};
+    var user = {name: "vistor-" + socket.id, id: socket.id, avatar: null};
     var verify = false;
 
     socket.on('get-user-list', function (){
@@ -24,9 +24,10 @@ io.on('connection', function(socket) {
         io.to(user.id).emit('user-info', user);
     });
 
-    //当输入了名字才承认了用户
-    socket.on('change-name', function (name){
-        user.name = name;
+    //当注册以后才承认用户
+    socket.on('register', function (userInfo){
+        user.name = userInfo.name
+        user.avatar = userInfo.avatar;
         if (!verify) {
             index = users.length;
             users.push(user);

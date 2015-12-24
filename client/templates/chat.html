@@ -1,15 +1,21 @@
 <div class="wrap" id="chat">
-    <div class="left">
+    <div class="side-menu">
         <div class="user-info">
-            <span>您的昵称：</span>{{me.name}}
-        </div>
-        <div class="tab">
-            <div class="users" ng-click="tab='users'" ng-class="{'active': tab=='users'}">用户</div>
-            <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
-                会话
-                <div class="unread" ng-show="totalUnread > 0"></div>
+            <div class="user-avatar">
+                <img src="{{me.avatar}}">
             </div>
         </div>
+        <div class="tab">
+            <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
+                <i class="fa fa-commenting"></i>
+                <!--                 <div class="unread" ng-show="totalUnread > 0"></div>
+ --></div>
+            <div class="users" ng-click="tab='users'" ng-class="{'active': tab=='users'}">
+                <i class="fa fa-user"></i>
+            </div>
+        </div>
+    </div>
+    <div class="left">
         <div class="user-list" ng-show="tab=='users'">
             <li ng-repeat="user in users" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
                 {{user.name}}
@@ -24,7 +30,12 @@
     </div>
     <div class="right">
         <div class="header">
-            {{currentDialog.name}}
+            <div class="dialog-avatar">
+                <img src="{{currentDialog.avatar}}">
+            </div>
+            <div class="dialog-name">
+                {{currentDialog.name}}
+            </div>
         </div>
         <div class="messages">
             <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">

@@ -9,53 +9,59 @@
     text-align: center;
 }
 
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    overflow: hidden;
+    img {
+        width: 100%;
+        height: 100%;
+    }
+}
+
 #chat {
     border-radius: 3px;
     overflow: hidden;
     box-shadow: 1px 1px 10px 3px #91D1EA;
-    li {
-        list-style: none;
-    }
-    .left {
-        color: white;
-        background-color: @deepGray;
+    & > div {
+        position: relative;
         float: left;
-        width: 260px;
         height: 100%;
+        color: white;
+    }
+    .side-menu {
+        background-color: @shallowGray;
+        width: 80px;
         .user-info {
-            height: 60px;
-            line-height: 60px;
-            padding: 0px 15px;
-            text-align: center;
-            font-size: 14px;
+            .user-avatar {
+                margin: auto;
+                margin-top: 10px;
+                border: 4px solid @textBlue;
+                .avatar;
+            }
         }
         .tab {
-            height: 40px;
-            line-height: 40px;
-            div {
-                font-size: 14px;
-                position: relative;
-                cursor: pointer;
-                float: left;
-                width: 50%;
-                .text-center;
-                &.active {
-                    background-color: rgb(100, 100, 100);
-                }
-                .unread {
-                    position: absolute;
-                    width: 5px;
-                    height: 5px;
-                    border-radius: 5px;
-                    background-color: @unreadColor;
-                    top: 8px;
-                    right: 8px;
-                }
+            margin-top: 80px;
+            color: @textDeepGray;
+            i {
+                color: @textDeepGray;
+                font-size: 30px;
             }
-            &:after {
-                .clear-both;
+            div {
+                margin-top: 40px;
+                &.active {
+                    i {
+                        color: @textBlue;
+                    }
+                }
+                .text-center;
             }
         }
+    }
+    .left {
+        width: 260px;
+        background-color: @deepGray;
         .user-list {
             li {
                 display: block;
@@ -95,17 +101,29 @@
         }
     }
     .right {
-        background-color: @shallowGray;
-        position: relative;
-        float: left;
         width: 640px;
-        height: 100%;
+        background-color: @shallowGray;
         .header {
-            font-size: 14px;
-            height: 50px;
+            height: 90px;
             line-height: 50px;
-            padding: 0px 10px;
+            padding: 15px 25px 25px 25px;
             border-bottom: @whiteBorder;
+            div {
+                float: left;
+                &.dialog-name {
+                    line-height: 45px;
+                    font-size: 15px;
+                    color: @textDeepGray;
+                }
+                &.dialog-avatar {
+                    border: 4px solid @messageGreen;
+                    margin-right: 15px;
+                    .avatar;
+                }
+            }
+            &:after {
+                .clear-both;
+            }
             .text-center;
         }
         .messages {
