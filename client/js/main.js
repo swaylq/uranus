@@ -30,6 +30,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.totalUnread = 0;
     $scope.hasNewUser = false;
 
+    $scope.searchContent = "";
     $scope.tab = 'users';
     $scope.users = [];
     $scope.me = null;
@@ -46,6 +47,11 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         unread: 0
     };
     $scope.dialogs = [];
+
+    //创建新的对话
+    $scope.create = function() {
+
+    }
 
     //切换当前用户
     $scope.switchUser = function(user) {

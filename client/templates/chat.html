@@ -14,6 +14,9 @@
                 <i class="fa fa-user"></i>
                 <div class="unread" ng-show="hasNewUser"></div>
             </div>
+            <div class="create" ng-click="tab='create';" ng-class="{'active': tab=='create'}">
+                <i class="fa fa-plus"></i>
+            </div>
         </div>
     </div>
     <div class="left">
@@ -25,7 +28,7 @@
                 <input type="text" placeholder="搜索" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="user in users" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
+            <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
                 <div class="avatar">
                     <img src="{{user.avatar}}" />
                 </div>
@@ -44,6 +47,9 @@
                 </div>
                 <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
             </li>
+        </div>
+        <div class="create-list" ng-show="tab=='create'">
+
         </div>
     </div>
     <div class="right">
@@ -98,6 +104,9 @@
             <div ng-click="switchDialogWithUser()" class="dialog-button">
                 发消息
             </div>
+        </div>
+        <div class="member-list">
+
         </div>
     </div>
 </div>
