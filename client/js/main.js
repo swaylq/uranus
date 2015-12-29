@@ -31,6 +31,8 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.hasNewUser = false;
 
     $scope.searchContent = '';
+    $scope.searchContentForDialog = '';
+    
     $scope.tab = 'users';
     $scope.users = [];
 

@@ -25,7 +25,7 @@
                 在线人数:&nbsp;&nbsp;{{users.length}}&nbsp;人
             </div>
             <div class="search">
-                <input type="text" placeholder="搜索" ng-model="searchContent">
+                <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
             <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
@@ -38,7 +38,11 @@
             </li>
         </div>
         <div class="dialog-list" ng-show="tab=='dialogs'">
-            <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
+            <div class="search">
+                <input type="text" placeholder="搜索对话" ng-model="searchContentForDialog">
+                <i class="fa fa-search"></i>
+            </div>
+            <li ng-repeat="dialog in dialogs" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
                 <div class="avatar">
                     <img src="{{dialog.avatar}}" />
                 </div>
@@ -53,7 +57,7 @@
                 新建讨论组
             </div>
             <div class="search">
-                <input type="text" placeholder="搜索" ng-model="searchContent">
+                <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
             <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">

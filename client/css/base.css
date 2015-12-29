@@ -559,6 +559,9 @@ th {
   right: 10px;
   top: 11px;
 }
+#chat .left .dialog-list > .search {
+  margin-top: 15px;
+}
 #chat .left .create-list > li,
 #chat .left .user-list > li,
 #chat .left .dialog-list > li {
