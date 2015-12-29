@@ -33,7 +33,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.searchContent = "";
     $scope.tab = 'users';
     $scope.users = [];
+
     $scope.selectedUsers = [];
+
     $scope.me = null;
     $scope.currentUser = {
         avatar: null,
@@ -50,15 +52,12 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.dialogs = [];
 
     $scope.addToDialog = function(user) {
-        if (!user.selected) {
-            user.selected = true;
-            $scope.selectedUsers.push(user);
-        }
+        user.selected = !user.selected;
+        updateSelectedUsers();
     };
 
     //创建新的对话
     $scope.createDialog = function() {
-        console.log('try create dialog');
         socket.emit('create-dialog', $scope.selectedUsers);
     };
 
@@ -218,6 +217,17 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
             $scope.dialogs.push(dialog);
         }
         return dialog;
+    };
+
+    //更新选择的用户
+    function updateSelectedUsers() {
+        var selectedUsers = [];
+        $scope.users.forEach(function (user){
+            if (user.selected) {
+                selectedUsers.push(user);
+            }
+        });
+        $scope.selectedUsers = selectedUsers;
     };
 
     $scope.$watch('dialogs', function(newV, oldV) {
