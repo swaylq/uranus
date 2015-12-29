@@ -13,7 +13,7 @@ io.on('connection', function(socket) {
     //用户序号
     var index = -1;
     //处理新用户
-    var user = {name: "vistor-" + socket.id, id: socket.id, avatar: null};
+    var user = {name: 'vistor-' + socket.id, id: socket.id, avatar: null};
     var verify = false;
 
     socket.on('get-user-list', function (){
@@ -41,22 +41,41 @@ io.on('connection', function(socket) {
 
     //加入讨论组
     socket.on('join-dialog', function (did){
-        console.log("receive join dialog", did);
+        console.log('receive join dialog', did);
         socket.join(did);
     });
 
     //创建讨论组
     socket.on('create-dialog', function (users){
-        console.log("receive create dialog", users);
-        var did = "dialog";
+        console.log('receive create dialog', users);
+        var did = 'dialog';
+        var name = '';
 
         //拼接dialogID
         users.forEach(function (user){
-            did += "-" + user.id;
+            did += '-' + user.id;
         });
-        //将dialogID传入所有的user
+
+        var extraStr = '  共' + users.length + '人';
+        for (var i = 0; i < users.length; i++) {
+            if (name.length < 30) {
+                name += users[i].name + ', ';
+            } else {
+                extraStr = '  等' + users.length + '人';
+                break;
+            }
+        }
+        name = name.substr(0, name.length - 2);
+        name += extraStr;
+
+        var dialog = {
+            did: did,
+            name: name,
+            users: users
+        };
+        //将dialog传入所有的user
         users.forEach(function (user){
-            io.to(user.id).emit('join-dialog', did);
+            io.to(user.id).emit('join-dialog', dialog);
         });
     });
 
