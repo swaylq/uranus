@@ -41,25 +41,27 @@ io.on('connection', function(socket) {
 
     //加入讨论组
     socket.on('join-dialog', function (did){
+        console.log("receive join dialog", did);
         socket.join(did);
     });
 
     //创建讨论组
     socket.on('create-dialog', function (users){
-        var did = "";
+        console.log("receive create dialog", users);
+        var did = "dialog";
 
         //拼接dialogID
         users.forEach(function (user){
-            did += user.id;
+            did += "-" + user.id;
         });
         //将dialogID传入所有的user
-        user.forEach(function (user){
+        users.forEach(function (user){
             io.to(user.id).emit('join-dialog', did);
         });
     });
 
-    socket.on('chat-message', function(id, msg) {
-        io.to(id).emit('chat-message', msg);
+    socket.on('chat-message', function(msg) {
+        io.to(msg.dialog.did).emit('chat-message', msg);
     });
 
     socket.on('disconnect', function (){

@@ -38,7 +38,7 @@
             </li>
         </div>
         <div class="dialog-list" ng-show="tab=='dialogs'">
-            <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.uid == currentDialog.uid}">
+            <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
                 <div class="avatar">
                     <img src="{{dialog.avatar}}" />
                 </div>
@@ -49,7 +49,21 @@
             </li>
         </div>
         <div class="create-list" ng-show="tab=='create'">
-
+            <div class="user-num">
+                新建讨论组
+            </div>
+            <div class="search">
+                <input type="text" placeholder="搜索" ng-model="searchContent">
+                <i class="fa fa-search"></i>
+            </div>
+            <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
+                <div class="avatar">
+                    <img src="{{user.avatar}}" />
+                </div>
+                <div class="name">
+                    {{user.name}}
+                </div>
+            </li>
         </div>
     </div>
     <div class="right">
@@ -89,14 +103,14 @@
                 <form>
                     <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
                     <div class="extra">
-                        <a class="button" ng-click="send();" type="submit">发送</a>
+                        <a class="send-button" ng-click="send();" type="submit">发送</a>
                     </div>
                 </form>
             </div>
         </div>
         <div class="user-content" ng-show="tab=='users'">
             <div class="user-avatar">
-                <img src="{{currentUser.avatar}}"/>
+                <img src="{{currentUser.avatar}}" />
             </div>
             <div class="user-name">
                 {{currentUser.name}}
@@ -105,8 +119,23 @@
                 发消息
             </div>
         </div>
-        <div class="member-list">
-
+        <div class="dialog-member" ng-show="tab=='create'">
+            <div class="header">
+                已选择用户
+            </div>
+            <div class="list">
+                <div class="one-user" ng-repeat="user in selectedUsers">
+                    <div class="user-avatar">
+                        <img src="{{user.avatar}}"/>
+                    </div>
+                    <div class="user-name">
+                        {{user.name}}
+                    </div>
+                </div>
+            </div>
+            <div ng-click="createDialog()" class="create-button">
+                创建讨论组
+            </div>
         </div>
     </div>
 </div>

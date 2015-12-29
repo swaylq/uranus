@@ -450,6 +450,18 @@ th {
   box-shadow: none;
   outline: none;
 }
+.button {
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #85C6EE;
+  color: white;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  margin: auto;
+  text-align: center;
+}
 #chat {
   border-radius: 3px;
   overflow: hidden;
@@ -547,6 +559,7 @@ th {
   right: 10px;
   top: 11px;
 }
+#chat .left .create-list > li,
 #chat .left .user-list > li,
 #chat .left .dialog-list > li {
   display: block;
@@ -556,19 +569,24 @@ th {
   line-height: 50px;
   padding: 10px 15px;
 }
+#chat .left .create-list > li .avatar,
 #chat .left .user-list > li .avatar,
 #chat .left .dialog-list > li .avatar {
   float: left;
   margin-right: 15px;
   border: 4px solid #696C75;
 }
+#chat .left .create-list > li .name,
 #chat .left .user-list > li .name,
 #chat .left .dialog-list > li .name {
+  width: 135px;
+  overflow: hidden;
   float: left;
   line-height: 45px;
   color: #EFEFEF;
   font-size: 15px;
 }
+#chat .left .create-list > li .unread,
 #chat .left .user-list > li .unread,
 #chat .left .dialog-list > li .unread {
   top: 25px;
@@ -579,10 +597,12 @@ th {
   border-radius: 10px;
   font-size: 10px;
 }
+#chat .left .create-list > li.active,
 #chat .left .user-list > li.active,
 #chat .left .dialog-list > li.active {
   background-color: #646464;
 }
+#chat .left .create-list > li:after,
 #chat .left .user-list > li:after,
 #chat .left .dialog-list > li:after {
   content: "";
@@ -669,14 +689,14 @@ th {
 #chat .right .dialog-content .send form .extra {
   margin-top: 10px;
 }
-#chat .right .dialog-content .send form .extra .button {
+#chat .right .dialog-content .send form .extra .send-button {
   cursor: pointer;
   float: right;
   font-size: 14px;
   color: #85C6EE;
   font-weight: bold;
 }
-#chat .right .dialog-content .send form .extra .button:hover {
+#chat .right .dialog-content .send form .extra .send-button:hover {
   color: #B9DEEE;
 }
 #chat .right .dialog-content .send form .extra:after {
@@ -713,12 +733,63 @@ th {
   margin: auto;
   text-align: center;
 }
+#chat .right .dialog-member .header {
+  padding: 15px 25px;
+  color: #444652;
+  border-bottom: 2px solid white;
+}
+#chat .right .dialog-member .list {
+  padding: 15px 25px;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+#chat .right .dialog-member .list .one-user {
+  margin-right: 15px;
+  float: left;
+}
+#chat .right .dialog-member .list .one-user .user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+#chat .right .dialog-member .list .one-user .user-avatar img {
+  width: 100%;
+  height: 100%;
+}
+#chat .right .dialog-member .list .one-user .user-name {
+  overflow: hidden;
+  width: 50px;
+  margin-top: 5px;
+  color: #444652;
+  text-align: center;
+}
+#chat .right .dialog-member .list:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#chat .right .dialog-member .create-button {
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #85C6EE;
+  color: white;
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 20px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 61.5px;
+}
 html,
 body {
   height: 100%;
 }
 * {
   box-sizing: border-box;
+  white-space: nowrap;
 }
 body {
   background-color: #B9DEEE;

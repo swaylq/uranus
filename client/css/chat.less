@@ -85,6 +85,7 @@
                 top: 11px;
             }
         }
+        .create-list > li,
         .user-list > li,
         .dialog-list > li {
             display: block;
@@ -99,6 +100,8 @@
                 border: 4px solid @textMiddleGray;
             }
             .name {
+                width: 135px;
+                overflow: hidden;
                 float: left;
                 line-height: 45px;
                 color: @textLightGray;
@@ -176,7 +179,7 @@
                     }
                     .extra {
                         margin-top: 10px;
-                        .button {
+                        .send-button {
                             cursor: pointer;
                             float: right;
                             font-size: 14px;
@@ -212,16 +215,39 @@
                 .text-center;
             }
             .dialog-button {
-                border-radius: 5px;
-                cursor: pointer;
-                background-color: @textBlue;
-                color: white;
-                width: 150px;
-                height: 50px;
-                line-height: 50px;
-                font-size: 20px;
-                margin: auto;
-                .text-center;
+                .button;
+            }
+        }
+        .dialog-member {
+            .header {
+                padding: 15px 25px;
+                color: @textDeepGray;
+                border-bottom: @whiteBorder;
+            }
+            .list {
+                padding: 15px 25px;
+                flex: 1;
+                .one-user {
+                    margin-right: 15px;
+                    float: left;
+                    .user-avatar {
+                        .avatar;
+                    }
+                    .user-name {
+                        overflow: hidden;
+                        width: 50px;
+                        margin-top: 5px;
+                        color: @textDeepGray;
+                        .text-center;
+                    }
+                }
+                &:after {
+                    .clear-both;
+                }
+            }
+            .create-button {
+                .button;
+                margin-bottom: 61.5px;
             }
         }
     }

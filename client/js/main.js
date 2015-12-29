@@ -33,6 +33,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.searchContent = "";
     $scope.tab = 'users';
     $scope.users = [];
+    $scope.selectedUsers = [];
     $scope.me = null;
     $scope.currentUser = {
         avatar: null,
@@ -41,17 +42,25 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     };
     $scope.currentDialog = {
         avatar: null,
-        uid: null,
+        did: null,
         name: null,
         msgs: [],
         unread: 0
     };
     $scope.dialogs = [];
 
-    //创建新的对话
-    $scope.create = function() {
+    $scope.addToDialog = function(user) {
+        if (!user.selected) {
+            user.selected = true;
+            $scope.selectedUsers.push(user);
+        }
+    };
 
-    }
+    //创建新的对话
+    $scope.createDialog = function() {
+        console.log('try create dialog');
+        socket.emit('create-dialog', $scope.selectedUsers);
+    };
 
     //切换当前用户
     $scope.switchUser = function(user) {
@@ -61,16 +70,16 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     //切换当前会话
     $scope.switchDialog = function(dialog) {
         $scope.currentDialog = getDialog(dialog);
-        $timeout(function (){
+        $timeout(function() {
             $('.messages').scrollTop($('.messages-list').height());
         });
     };
 
-    $scope.switchDialogWithUser = function () {
+    $scope.switchDialogWithUser = function() {
         //根据userid找dialog
         $scope.currentDialog = getDialog({
             avatar: $scope.currentUser.avatar,
-            uid: $scope.currentUser.id,
+            did: $scope.currentUser.id,
             name: $scope.currentUser.name,
             msgs: [],
             unread: 0
@@ -79,17 +88,25 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     };
 
     $scope.send = function() {
+        if (!$scope.sendMessage) {
+            alert("发送消息不能为空");
+            return;
+        }
         var msg = {
             fromUser: $scope.me,
+            dialog: {
+                name: $scope.currentDialog.name,
+                avatar: $scope.currentDialog.avatar,
+                did: $scope.currentDialog.did
+            },
             content: $scope.sendMessage,
             time: moment(new Date()).format("a h:mm:ss")
         };
-        //如果不是自己和自己聊天，要把msg加入
-        if ($scope.currentDialog.uid != $scope.me.id) {
-            updateDialogs($scope.currentDialog, msg, false);
-        }
-        socket.emit('chat-message', $scope.currentDialog.uid, msg);
 
+        //更新dialog，把自己说的话更新进去
+        updateDialogs($scope.currentDialog, msg, false);
+
+        socket.emit('chat-message', msg);
         $scope.sendMessage = "";
     };
 
@@ -98,27 +115,45 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     socket.emit('get-user-list');
 
     socket.on('user-info', function(user) {
-        console.log(user);
+        console.log("recieve user info", user);
         $scope.me = user;
         $scope.currentUser = $scope.me;
     });
 
     //收到信息
     socket.on('chat-message', function(msg) {
-        console.log(msg);
-        var defaultDialog = {
-            avatar: msg.fromUser.avatar,
-            uid: msg.fromUser.id,
-            name: msg.fromUser.name,
-            msgs: [msg],
-            unread: 1
+        console.log("recieve chat message", msg);
+        //如果不是自己发的，才去更新消息
+        if (msg.fromUser.id != $scope.me.id) {
+            var defaultDialog = {};
+            //如果不为讨论组的对话，则根据fromUser来寻找或生成对话
+            if (msg.dialog.did == $scope.me.id) {
+                defaultDialog = {
+                    avatar: msg.fromUser.avatar,
+                    did: msg.fromUser.id,
+                    name: msg.fromUser.name,
+                    msgs: [msg],
+                    unread: 1
+                };
+            } else {
+                //如果位讨论组的对话，则直接根据msg的dialog信息
+                defaultDialog = {
+                    avatar: msg.dialog.avatar,
+                    did: msg.dialog.did,
+                    name: msg.dialog.name,
+                    msgs: [msg],
+                    unread: 1
+                };
+            }
+            $scope.$apply(function() {
+                updateDialogs(defaultDialog, msg, true);
+            });
         }
-        $scope.$apply(function (){
-            updateDialogs(defaultDialog, msg, true);
-        });
     });
 
+    //更新用户列表
     socket.on('user-list', function(users) {
+        console.log("recieve user list", users);
         $scope.$apply(function() {
             //当有新的用户，并且当前在会话界面时
             if ($scope.users.length < users.length && $scope.tab == 'dialogs') {
@@ -128,13 +163,33 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         })
     });
 
-    //根据uid来更新messages
+    //收到加入讨论组的信息
+    socket.on('join-dialog', function(did) {
+        console.log("recieve join dialog", did);
+        socket.emit('join-dialog', did);
+        var defaultDialog = {
+            avatar: "images/dialog.png",
+            did: did,
+            name: "讨论组",
+            msgs: [],
+            unread: 0
+        };
+        $scope.$apply(function() {
+            $scope.dialogs.push(defaultDialog);
+            $scope.tab = 'dialogs';
+            $scope.currentDialog = defaultDialog;
+        });
+    });
+
+    //根据did来更新messages
     function updateDialogs(dialog, msg, unread) {
         var updated = false;
         $scope.dialogs.forEach(function(d) {
-            if (d.uid == dialog.uid) {
+            if (d.did == dialog.did) {
                 d.msgs.push(msg);
-                $('.messages').animate({scrollTop: $('.messages-list').height()}, "slow");
+                $('.messages').animate({
+                    scrollTop: $('.messages-list').height()
+                }, "slow");
                 if (unread) {
                     d.unread++;
                 }
@@ -151,7 +206,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     function getDialog(dialog) {
         var hasDialog = false;
         $scope.dialogs.forEach(function(d) {
-            if (d.uid == dialog.uid) {
+            if (d.did == dialog.did) {
                 hasDialog = true;
                 //每次寻找时都要去掉未读消息
                 d.unread = 0;
@@ -165,9 +220,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         return dialog;
     };
 
-    $scope.$watch('dialogs', function (newV, oldV){
+    $scope.$watch('dialogs', function(newV, oldV) {
         $scope.totalUnread = 0;
-        $scope.dialogs.forEach(function (d){
+        $scope.dialogs.forEach(function(d) {
             $scope.totalUnread += d.unread;
         });
     }, true);
