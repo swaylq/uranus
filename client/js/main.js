@@ -68,7 +68,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
 
     //创建新的对话
     $scope.createDialog = function() {
+        $scope.selectedUsers.push($scope.me);
         socket.emit('create-dialog', $scope.selectedUsers);
+        $scope.selectedUsers = [];
     };
 
     //切换当前用户
@@ -181,7 +183,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
             unread: 0
         };
         $scope.$apply(function() {
-            $scope.dialogs.push(defaultDialog);
+            updateDialogs(defaultDialog, null, false);
             $scope.tab = 'dialogs';
             $scope.currentDialog = defaultDialog;
         });
@@ -192,7 +194,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         var updated = false;
         $scope.dialogs.forEach(function(d) {
             if (d.did == dialog.did) {
-                d.msgs.push(msg);
+                if (msg) {
+                    d.msgs.push(msg);
+                }
                 $('.messages').animate({
                     scrollTop: $('.messages-list').height()
                 }, 'slow');
@@ -204,6 +208,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         });
         //如果没有则创建diaog
         if (!updated) {
+            console.log('create new dialog');
             $scope.dialogs.push(dialog);
         }
     };

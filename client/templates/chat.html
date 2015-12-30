@@ -28,7 +28,7 @@
                 <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
+            <li ng-repeat="user in users|orderBy:$index" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
                 <div class="avatar">
                     <img src="{{user.avatar}}" />
                 </div>
@@ -42,7 +42,7 @@
                 <input type="text" placeholder="搜索对话" ng-model="searchContentForDialog">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="dialog in dialogs" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
+            <li ng-repeat="dialog in dialogs track by $index|orderBy:$index" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
                 <div class="avatar">
                     <img src="{{dialog.avatar}}" />
                 </div>
@@ -60,7 +60,7 @@
                 <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="user in users" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
+            <li ng-repeat="user in users" ng-show="(searchContent==''||user.name.indexOf(searchContent)==0)&&user.id!=me.id" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
                 <div class="avatar">
                     <img src="{{user.avatar}}" />
                 </div>
@@ -79,8 +79,6 @@
                 <div class="dialog-name">
                     {{currentDialog.name}}
                 </div>
-            </div>
-            <div class="messages">
                 <div class="member-list" style="height:0px">
                     <div class="inner-wrap">
                         <div class="one-user" ng-repeat="user in currentDialog.users">
@@ -93,6 +91,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="messages">
                 <ul class="messages-list">
                     <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
                         <div class="title">
@@ -140,7 +140,7 @@
                 已选择用户
             </div>
             <div class="list">
-                <div class="one-user" ng-repeat="user in selectedUsers">
+                <div class="one-user" ng-repeat="user in selectedUsers" ng-show="user.id!=me.id">
                     <div class="user-avatar">
                         <img src="{{user.avatar}}" />
                     </div>
