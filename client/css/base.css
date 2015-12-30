@@ -483,15 +483,9 @@ th {
   color: #444652;
   text-align: center;
 }
-:after {
-  content: "";
-  display: table;
-  clear: both;
-}
 #chat {
   border-radius: 3px;
   overflow: hidden;
-  box-shadow: 1px 1px 10px 3px #91D1EA;
 }
 #chat > div {
   position: relative;
@@ -805,6 +799,55 @@ th {
   text-align: center;
   margin-bottom: 61.5px;
 }
+#login {
+  padding-top: 150px;
+}
+#login form {
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: white;
+  width: 300px;
+  height: 350px;
+  margin: auto;
+  padding: 20px;
+}
+#login form .brand {
+  font-size: 40px;
+  color: #85C6EE;
+  text-align: center;
+  margin-bottom: 130px;
+  padding-top: 30px;
+}
+#login form .user-name-input {
+  padding: 0px 10px;
+  margin: auto;
+  width: 260px;
+  color: #696C75;
+  line-height: 42px;
+  font-size: 15px;
+  background-color: #F1F5F8;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  border-bottom: 1px solid #EFEFEF;
+}
+#login form .user-name-input:focus {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+#login form .user-name-input:focus {
+  border-bottom: 1px solid #EFEFEF;
+}
+#login form .login-button {
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  background-color: #85C6EE;
+  color: white;
+  margin-top: 15px;
+  cursor: pointer;
+}
 html,
 body {
   height: 100%;
@@ -814,7 +857,7 @@ body {
   white-space: nowrap;
 }
 body {
-  background-color: #B9DEEE;
+  background-image: url('../images/bg.jpg');
 }
 ul {
   padding: 0px;

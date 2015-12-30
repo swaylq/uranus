@@ -1,8 +1,9 @@
 <div class="wrap" id="login">
-    <form ng-submit="submit();">
-        <div class="user-name-label">
-            请输入你的用户名
+    <form>
+        <div class="brand">
+            SJTU
         </div>
-        <input class="user-name-input" ng-model="user.name"/>
+        <input class="user-name-input" placeholder="请输入你的用户名" ng-model="user.name"/>
+        <div ng-click="submit();" class="login-button">登录</div>
     </form>
 </div>
