@@ -72,7 +72,7 @@
     </div>
     <div class="right">
         <div class="dialog-content" ng-show="tab=='dialogs'">
-            <div class="header">
+            <div class="header" ng-click="showMembers()">
                 <div class="dialog-avatar">
                     <img src="{{currentDialog.avatar}}">
                 </div>
@@ -81,6 +81,18 @@
                 </div>
             </div>
             <div class="messages">
+                <div class="member-list" style="height:0px">
+                    <div class="inner-wrap">
+                        <div class="one-user" ng-repeat="user in currentDialog.users">
+                            <div class="user-avatar">
+                                <img src="{{user.avatar}}" />
+                            </div>
+                            <div class="user-name">
+                                {{user.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <ul class="messages-list">
                     <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
                         <div class="title">
@@ -130,7 +142,7 @@
             <div class="list">
                 <div class="one-user" ng-repeat="user in selectedUsers">
                     <div class="user-avatar">
-                        <img src="{{user.avatar}}"/>
+                        <img src="{{user.avatar}}" />
                     </div>
                     <div class="user-name">
                         {{user.name}}

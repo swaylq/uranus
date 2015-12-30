@@ -53,6 +53,14 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     };
     $scope.dialogs = [];
 
+    $scope.showMembers = function () {
+        if ($('.member-list').height() > 0) {
+            $('.member-list').height(0);
+        } else {
+            $('.member-list').height(200);
+        }
+    };
+
     $scope.addToDialog = function(user) {
         user.selected = !user.selected;
         updateSelectedUsers();

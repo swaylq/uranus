@@ -88,7 +88,6 @@
         .dialog-list > .search {
             margin-top: 15px;
         }
-
         .create-list > li,
         .user-list > li,
         .dialog-list > li {
@@ -138,6 +137,7 @@
         }
         .dialog-content {
             .header {
+                cursor: pointer;
                 height: 90px;
                 line-height: 50px;
                 padding: 15px 25px 25px 25px;
@@ -164,6 +164,24 @@
                 flex: 1;
                 overflow-y: scroll;
                 padding: 10px 25px;
+                position: relative;
+                .member-list {
+                    transition: height 1s;
+                    background-color: white;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    right: 0px;
+                    &:after {
+                        .clear-both;
+                    }
+                    .inner-wrap {
+                        height: 100%;
+                        overflow: scroll;
+                        padding: 15px 25px;
+                    }
+                }
             }
             .send {
                 height: 150px;
@@ -230,24 +248,6 @@
             }
             .list {
                 padding: 15px 25px;
-                flex: 1;
-                .one-user {
-                    margin-right: 15px;
-                    float: left;
-                    .user-avatar {
-                        .avatar;
-                    }
-                    .user-name {
-                        overflow: hidden;
-                        width: 50px;
-                        margin-top: 5px;
-                        color: @textDeepGray;
-                        .text-center;
-                    }
-                }
-                &:after {
-                    .clear-both;
-                }
             }
             .create-button {
                 .button;
