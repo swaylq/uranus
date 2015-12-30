@@ -54,10 +54,14 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.dialogs = [];
 
     $scope.showMembers = function () {
-        if ($('.member-list').height() > 0) {
-            $('.member-list').height(0);
-        } else {
-            $('.member-list').height(200);
+
+        //当人数大于2才展开
+        if ($scope.currentDialog.users.length > 1) {
+            if ($('.member-list').height() > 0) {
+                $('.member-list').height(0);
+            } else {
+                $('.member-list').height(200);
+            }
         }
     };
 
@@ -70,6 +74,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     $scope.createDialog = function() {
         $scope.selectedUsers.push($scope.me);
         socket.emit('create-dialog', $scope.selectedUsers);
+        $scope.selectedUsers.forEach(function (user){
+            user.selected = false;
+        });
         $scope.selectedUsers = [];
     };
 
