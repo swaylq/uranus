@@ -56,12 +56,12 @@ io.on('connection', function(socket) {
             did += '-' + user.id;
         });
 
-        var extraStr = '  共' + users.length + '人';
+        var extraStr = '   共 ' + users.length + ' 人';
         for (var i = 0; i < users.length; i++) {
             if (name.length < 30) {
                 name += users[i].name + ', ';
             } else {
-                extraStr = '  等' + users.length + '人';
+                extraStr = '   等 ' + users.length + ' 人';
                 break;
             }
         }

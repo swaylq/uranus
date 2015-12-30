@@ -50,6 +50,11 @@
     .left {
         width: 260px;
         background-color: @deepGray;
+        & > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .user-num {
             font-size: 13px;
             color: rgb(213, 213, 214);
@@ -60,8 +65,7 @@
             height: 40px;
             width: 230px;
             border-radius: 5px;
-            margin: auto;
-            margin-bottom: 15px;
+            margin: 15px auto;
             font-size: 13px;
             overflow: hidden;
             line-height: 40px;
@@ -84,45 +88,44 @@
                 top: 11px;
             }
         }
-        .dialog-list > .search {
-            margin-top: 15px;
-        }
-        .create-list > li,
-        .user-list > li,
-        .dialog-list > li {
-            display: block;
-            position: relative;
-            cursor: pointer;
-            height: 70px;
-            line-height: 50px;
-            padding: 10px 15px;
-            .avatar {
-                float: left;
-                margin-right: 15px;
-                border: 4px solid @textMiddleGray;
-            }
-            .name {
-                width: 135px;
-                overflow: hidden;
-                float: left;
-                line-height: 45px;
-                color: @textLightGray;
-                font-size: 15px;
-            }
-            .unread {
-                top: 25px;
-                right: 15px;
-                width: 20px;
-                height: 20px;
-                line-height: 20px;
-                border-radius: 10px;
-                font-size: 10px;
-            }
-            &.active {
-                background-color: rgb(100, 100, 100);
-            }
-            &:after {
-                .clear-both;
+        .list {
+            flex: 1;
+            overflow-y: scroll;
+            & > li {
+                display: block;
+                position: relative;
+                cursor: pointer;
+                height: 70px;
+                line-height: 50px;
+                padding: 10px 15px;
+                .avatar {
+                    float: left;
+                    margin-right: 15px;
+                    border: 4px solid @textMiddleGray;
+                }
+                .name {
+                    width: 135px;
+                    overflow: hidden;
+                    float: left;
+                    line-height: 45px;
+                    color: @textLightGray;
+                    font-size: 15px;
+                }
+                .unread {
+                    top: 25px;
+                    right: 15px;
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                    border-radius: 10px;
+                    font-size: 10px;
+                }
+                &.active {
+                    background-color: rgb(100, 100, 100);
+                }
+                &:after {
+                    .clear-both;
+                }
             }
         }
     }
@@ -141,7 +144,7 @@
                 line-height: 50px;
                 padding: 15px 25px 25px 25px;
                 border-bottom: @whiteBorder;
-                div {
+                & > div {
                     float: left;
                     &.dialog-name {
                         line-height: 45px;
@@ -245,13 +248,19 @@
                 padding: 15px 25px;
                 color: @textDeepGray;
                 border-bottom: @whiteBorder;
+                .text-center;
             }
             .list {
                 padding: 15px 25px;
+                .title {
+                    font-size: 13px;
+                    color: @textShallowGray;
+                    margin-bottom: 15px;
+                }
             }
             .create-button {
                 .button;
-                margin-bottom: 61.5px;
+                margin-bottom: 50px;
             }
         }
     }

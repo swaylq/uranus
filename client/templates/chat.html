@@ -21,59 +21,65 @@
     </div>
     <div class="left">
         <div class="user-list" ng-show="tab=='users'">
-            <div class="user-num">
-                在线人数:&nbsp;&nbsp;{{users.length}}&nbsp;人
-            </div>
             <div class="search">
                 <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="user in users|orderBy:$index" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
-                <div class="avatar">
-                    <img src="{{user.avatar}}" />
-                </div>
-                <div class="name">
-                    {{user.name}}
-                </div>
-            </li>
+            <div class="list">
+                <li ng-repeat="user in users|orderBy:$index" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
+                    <div class="avatar">
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{user.name}}
+                    </div>
+                </li>
+            </div>
+            <div class="user-num">
+                在线人数:&nbsp;&nbsp;{{users.length}}&nbsp;人
+            </div>
         </div>
         <div class="dialog-list" ng-show="tab=='dialogs'">
             <div class="search">
                 <input type="text" placeholder="搜索对话" ng-model="searchContentForDialog">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="dialog in dialogs track by $index|orderBy:$index" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
-                <div class="avatar">
-                    <img src="{{dialog.avatar}}" />
-                </div>
-                <div class="name">
-                    {{dialog.name}}
-                </div>
-                <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
-            </li>
+            <div class="list">
+                <li ng-repeat="dialog in dialogs track by $index|orderBy:$index" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
+                    <div class="avatar">
+                        <img src="{{dialog.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{dialog.name}}
+                    </div>
+                    <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
+                </li>
+            </div>
         </div>
         <div class="create-list" ng-show="tab=='create'">
-            <div class="user-num">
-                新建讨论组
-            </div>
             <div class="search">
                 <input type="text" placeholder="搜索用户" ng-model="searchContent">
                 <i class="fa fa-search"></i>
             </div>
-            <li ng-repeat="user in users" ng-show="(searchContent==''||user.name.indexOf(searchContent)==0)&&user.id!=me.id" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
-                <div class="avatar">
-                    <img src="{{user.avatar}}" />
-                </div>
-                <div class="name">
-                    {{user.name}}
-                </div>
-            </li>
+            <div class="list">
+                <li ng-repeat="user in users" ng-show="(searchContent==''||user.name.indexOf(searchContent)==0)&&user.id!=me.id" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
+                    <div class="avatar">
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{user.name}}
+                    </div>
+                </li>
+            </div>
+            <div class="user-num">
+                当前可选择人数:&nbsp;&nbsp;{{users.length > 1 ? users.length - 1 : "无"}}&nbsp;
+            </div>
         </div>
     </div>
     <div class="right">
         <div class="dialog-content" ng-show="tab=='dialogs'">
             <div class="header" ng-click="showMembers()">
-                <div class="dialog-avatar">
+                <div class="dialog-avatar" ng-show="currentDialog.avatar">
                     <img src="{{currentDialog.avatar}}">
                 </div>
                 <div class="dialog-name">
@@ -137,9 +143,12 @@
         </div>
         <div class="dialog-member" ng-show="tab=='create'">
             <div class="header">
-                已选择用户
+                新建讨论组
             </div>
             <div class="list">
+                <div class="title">
+                    已选择用户：{{selectedUsers.length > 0 ? selectedUsers.length : "无"}}
+                </div>
                 <div class="one-user" ng-repeat="user in selectedUsers" ng-show="user.id!=me.id">
                     <div class="user-avatar">
                         <img src="{{user.avatar}}" />

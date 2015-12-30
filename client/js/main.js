@@ -32,7 +32,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
 
     $scope.searchContent = '';
     $scope.searchContentForDialog = '';
-    
+
     $scope.tab = 'users';
     $scope.users = [];
 
@@ -53,8 +53,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     };
     $scope.dialogs = [];
 
-    $scope.showMembers = function () {
-
+    $scope.showMembers = function() {
         //当人数大于2才展开
         if ($scope.currentDialog.users.length > 1) {
             if ($('.member-list').height() > 0) {
@@ -72,12 +71,14 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
 
     //创建新的对话
     $scope.createDialog = function() {
-        $scope.selectedUsers.push($scope.me);
-        socket.emit('create-dialog', $scope.selectedUsers);
-        $scope.selectedUsers.forEach(function (user){
-            user.selected = false;
-        });
-        $scope.selectedUsers = [];
+        if ($scope.selectedUsers.length > 0) {
+            $scope.selectedUsers.push($scope.me);
+            socket.emit('create-dialog', $scope.selectedUsers);
+            $scope.selectedUsers.forEach(function(user) {
+                user.selected = false;
+            });
+            $scope.selectedUsers = [];
+        }
     };
 
     //切换当前用户
@@ -108,6 +109,11 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     };
 
     $scope.send = function() {
+        if (!$scope.currentDialog.did) {
+            alert('没有选择对话');
+            return;
+        }
+
         if (!$scope.sendMessage) {
             alert('发送消息不能为空');
             return;
@@ -157,7 +163,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
                 };
             } else {
                 //如果位讨论组的对话，则直接根据msg的dialog信息里的did去寻找，因为一定创建了
-                defaultDialog = {did: msg.dialog.did}
+                defaultDialog = {
+                    did: msg.dialog.did
+                }
             }
             $scope.$apply(function() {
                 updateDialogs(defaultDialog, msg, true);
@@ -241,7 +249,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     //更新选择的用户
     function updateSelectedUsers() {
         var selectedUsers = [];
-        $scope.users.forEach(function (user){
+        $scope.users.forEach(function(user) {
             if (user.selected) {
                 selectedUsers.push(user);
             }
