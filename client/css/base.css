@@ -814,9 +814,15 @@ th {
 #login form .brand {
   font-size: 40px;
   color: #85C6EE;
-  text-align: center;
-  margin-bottom: 130px;
+  margin-bottom: 15px;
   padding-top: 30px;
+  text-align: center;
+}
+#login form .describe {
+  font-size: 14px;
+  color: #696C75;
+  text-align: center;
+  margin-bottom: 90px;
 }
 #login form .user-name-input {
   padding: 0px 10px;
@@ -842,11 +848,11 @@ th {
 #login form .login-button {
   height: 38px;
   line-height: 38px;
-  text-align: center;
   background-color: #85C6EE;
   color: white;
   margin-top: 15px;
   cursor: pointer;
+  text-align: center;
 }
 html,
 body {
