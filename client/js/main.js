@@ -248,7 +248,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
                 $('.messages').animate({
                     scrollTop: $('.messages-list').height()
                 }, 'slow');
-                if (unread) {
+
+                //当不是当前对话框，才增加unread
+                if (unread && dialog.did != $scope.currentDialog.did) {
                     d.unread++;
                 }
                 updated = true;
