@@ -1,4 +1,4 @@
-var baseUrl = 'http://localhost:3000/';
+var baseUrl = 'http://139.196.192.129:3000/';
 
 function getRandomNum() {
     return parseInt(Math.random() * 12 + 1, 10);
@@ -248,7 +248,9 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
                 $('.messages').animate({
                     scrollTop: $('.messages-list').height()
                 }, 'slow');
-                if (unread) {
+
+                //当不是当前对话框，才增加unread
+                if (unread && dialog.did != $scope.currentDialog.did) {
                     d.unread++;
                 }
                 updated = true;
