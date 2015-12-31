@@ -1,8 +1,12 @@
-<div class="wrap" id="login">
-    <form ng-submit="submit();">
-        <div class="user-name-label">
-            请输入你的用户名
+<div class="wrap" id="login" ng-cloak>
+    <form>
+        <div class="brand">
+            iTalk
         </div>
-        <input class="user-name-input" ng-model="user.name"/>
+        <div class="describe">
+            专为交大人设计的聊天软件
+        </div>
+        <input class="user-name-input" placeholder="请输入你的用户名" ng-model="user.name"/>
+        <div ng-click="submit();" class="login-button">进入</div>
     </form>
 </div>

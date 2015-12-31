@@ -1,38 +1,171 @@
-<div class="wrap" id="chat">
-    <div class="left">
+<div class="wrap" id="chat" ng-cloak>
+    <div class="side-menu">
         <div class="user-info">
-            <span>您的昵称：</span>{{me.name}}
-        </div>
-        <div class="tab">
-            <div class="users" ng-click="tab='users'" ng-class="{'active': tab=='users'}">用户</div>
-            <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
-                会话
-                <div class="unread" ng-show="totalUnread > 0"></div>
+            <div class="user-avatar">
+                <img src="{{me.avatar}}">
             </div>
         </div>
+        <div class="tab">
+            <div class="dialogs" ng-click="tab='dialogs'" ng-class="{'active': tab=='dialogs'}">
+                <i class="fa fa-commenting"></i>
+                <div class="unread" ng-show="totalUnread > 0"></div>
+            </div>
+            <div class="users" ng-click="tab='users';hasNewUser=false;" ng-class="{'active': tab=='users'}">
+                <i class="fa fa-user"></i>
+                <div class="unread" ng-show="hasNewUser"></div>
+            </div>
+            <div class="create" ng-click="tab='create';" ng-class="{'active': tab=='create'}">
+                <i class="fa fa-plus"></i>
+            </div>
+        </div>
+    </div>
+    <div class="left">
         <div class="user-list" ng-show="tab=='users'">
-            <li ng-repeat="user in users" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
-                {{user.name}}
-            </li>
+            <div class="search">
+                <input type="text" placeholder="搜索用户" ng-model="searchContent">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="list">
+                <li ng-repeat="user in users|orderBy:$index" ng-show="searchContent==''||user.name.indexOf(searchContent)==0" ng-click="switchUser(user)" ng-class="{'active': user.id == currentUser.id}">
+                    <div class="avatar">
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{user.name}}
+                    </div>
+                </li>
+            </div>
+            <div class="user-num">
+                在线人数:&nbsp;&nbsp;{{users.length}}&nbsp;人
+            </div>
         </div>
         <div class="dialog-list" ng-show="tab=='dialogs'">
-            <li ng-repeat="dialog in dialogs" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.uid == currentDialog.uid}">
-                {{dialog.name}}
-                <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
-            </li>
+            <div class="search">
+                <input type="text" placeholder="搜索对话" ng-model="searchContentForDialog">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="list">
+                <li ng-repeat="dialog in dialogs track by $index|orderBy:$index" ng-show="searchContentForDialog==''||dialog.name.indexOf(searchContentForDialog)>=0" ng-click="switchDialog(dialog)" ng-class="{'active': dialog.did == currentDialog.did}">
+                    <div class="avatar">
+                        <img src="{{dialog.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{dialog.name}}
+                    </div>
+                    <div class="unread" ng-show="dialog.unread > 0">{{dialog.unread}}</div>
+                </li>
+            </div>
+        </div>
+        <div class="create-list" ng-show="tab=='create'">
+            <div class="search">
+                <input type="text" placeholder="搜索用户" ng-model="searchContent">
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="list">
+                <li ng-repeat="user in users" ng-show="(searchContent==''||user.name.indexOf(searchContent)==0)&&user.id!=me.id" ng-click="addToDialog(user)" ng-class="{'active': user.selected}">
+                    <div class="avatar">
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div class="name">
+                        {{user.name}}
+                    </div>
+                </li>
+            </div>
+            <div class="user-num">
+                当前可选择人数:&nbsp;&nbsp;{{users.length > 1 ? users.length - 1 : "无"}}&nbsp;
+            </div>
         </div>
     </div>
     <div class="right">
-        <div class="header">
-            {{currentDialog.name}}
+        <div class="dialog-content" ng-show="tab=='dialogs'">
+            <div class="header" ng-click="showMembers()">
+                <div class="dialog-avatar" ng-show="currentDialog.avatar">
+                    <img src="{{currentDialog.avatar}}">
+                </div>
+                <div class="dialog-name">
+                    {{currentDialog.name}}
+                </div>
+                <div class="member-list" style="height:0px">
+                    <div class="inner-wrap">
+                        <div class="one-user" ng-repeat="user in currentDialog.users">
+                            <div class="user-avatar">
+                                <img src="{{user.avatar}}" />
+                            </div>
+                            <div class="user-name">
+                                {{user.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="messages">
+                <ul class="messages-list">
+                    <li ng-repeat="message in currentDialog.msgs track by $index" class="one-message" ng-class="{'my-message':message.fromUser.id==me.id}">
+                        <div class="title">
+                            <div class="point">
+                            </div>
+                            <div class="user-name">
+                                {{message.fromUser.name}}
+                            </div>
+                            <div class="send-time">
+                                {{message.time}}
+                            </div>
+                        </div>
+                        <div class="arrow-up">
+                        </div>
+                        <div class="clear-both"></div>
+                        <div class="body">
+                            {{message.fileUrl ? '文件：[' + message.content + ']' : message.content}}
+                            <a target="_blank" ng-show="message.fileUrl" href="{{message.fileUrl}}"><i class="fa fa-download"></i></a>
+                        </div>
+                        <div class="clear-both"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="send">
+                <div>
+                    <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
+                    <div class="extra">
+                        <div class="send-file-button">
+                            <input id="sendFile" name="file" type="file"/>
+                            <i class="fa fa-file-o"></i>
+                        </div>
+                        <a class="send-button" ng-click="send();" type="submit">发送</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="messages">
-            <li ng-repeat="message in currentDialog.msgs track by $index">
-                {{message.fromUser.name}}：{{message.content}}
-            </li>
-        </div>`
-        <form ng-submit="send();">
-            <input autocomplete="off" ng-model="sendMessage"></input>
-        </form>
+        <div class="user-content" ng-show="tab=='users'">
+            <div class="user-avatar">
+                <img src="{{currentUser.avatar}}" />
+            </div>
+            <div class="user-name">
+                {{currentUser.name}}
+            </div>
+            <div ng-click="switchDialogWithUser()" class="dialog-button">
+                发消息
+            </div>
+        </div>
+        <div class="dialog-member" ng-show="tab=='create'">
+            <div class="header">
+                新建讨论组
+            </div>
+            <div class="list">
+                <div class="title">
+                    已选择用户：{{selectedUsers.length > 0 ? selectedUsers.length : "无"}}
+                </div>
+                <div class="one-user" ng-repeat="user in selectedUsers" ng-show="user.id!=me.id">
+                    <div class="user-avatar">
+                        <img src="{{user.avatar}}" />
+                    </div>
+                    <div class="user-name">
+                        {{user.name}}
+                    </div>
+                </div>
+            </div>
+            <div ng-click="createDialog()" class="create-button">
+                创建讨论组
+            </div>
+        </div>
     </div>
 </div>

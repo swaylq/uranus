@@ -1,9 +1,48 @@
 #login {
-    .user-name-label {
-
-    }
-
-    .user-name-input {
-        
+    padding-top: 150px;
+    form {
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: white;
+        width: 300px;
+        height: 350px;
+        margin: auto;
+        padding: 20px;
+        .brand {
+            font-size: 40px;
+            color: @textBlue;
+            margin-bottom: 15px;
+            padding-top: 30px;
+            .text-center;
+        }
+        .describe {
+            font-size: 14px;
+            color: @textMiddleGray;
+            .text-center;
+            margin-bottom: 90px;
+        }
+        .user-name-input {
+            padding: 0px 10px;
+            margin: auto;
+            width: 260px;
+            color: @textShallowGray;
+            line-height: 42px;
+            font-size: 15px;
+            background-color: @shallowGray;
+            .input;
+            border-bottom: 1px solid @textLightGray;
+            &:focus {
+                border-bottom: 1px solid @textLightGray;
+            }
+        }
+        .login-button {
+            height: 38px;
+            line-height: 38px;
+            background-color: @textBlue;
+            color: white;
+            margin-top: 15px;
+            cursor: pointer;
+            .text-center;
+        }
     }
 }

@@ -1,3 +1,4 @@
+@import "color.less";
 @import "normalize.less";
 @import "chat.less";
 @import "login.less";
@@ -6,10 +7,29 @@ body {
     height: 100%;
 }
 
+* {
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+body {
+    background-image: url('../images/bg.jpg');
+    background-size: 100%;
+}
+
+ul {
+    padding: 0px;
+}
+
+li {
+    list-style: none;
+}
+
 .outer-wrap {
-    width: 1080px;
+    width: 980px;
     margin: auto;
     height: 100%;
+    padding: 2px 0px;
 }
 
 .wrap {
@@ -22,6 +42,13 @@ body {
     clear: both;
 }
 
-div, p, li, a {
-    font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+div,
+p,
+li,
+a {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }

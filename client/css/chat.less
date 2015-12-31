@@ -1,135 +1,282 @@
-@blackBorder: 1px solid rgb(10, 10, 10);
-@grayBorder: 1px solid rgb(213, 213, 213);
-@unreadColor: red;
-
-.clear-both {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.text-center {
-    text-align: center;
-}
-
+@import 'message.less';
+@import 'global-class.less';
 #chat {
-    li {
-        list-style: none;
+    border-radius: 3px;
+    overflow: hidden;
+    & > div {
+        position: relative;
+        float: left;
+        height: 100%;
+        color: white;
+    }
+    .side-menu {
+        background-color: @shallowGray;
+        width: 80px;
+        .user-info {
+            .user-avatar {
+                margin: auto;
+                margin-top: 10px;
+                border: 4px solid @messageGreen;
+                .avatar;
+            }
+        }
+        .tab {
+            margin-top: 80px;
+            color: @textDeepGray;
+            i {
+                color: @textDeepGray;
+                font-size: 30px;
+            }
+            & > div {
+                position: relative;
+                cursor: pointer;
+                margin-top: 40px;
+                &.active {
+                    i {
+                        color: @textBlue;
+                    }
+                }
+                .unread {
+                    width: 8px;
+                    height: 8px;
+                    right: 22px;
+                    top: 4px;
+                    border-radius: 8px;
+                }
+                .text-center;
+            }
+        }
     }
     .left {
-        color: white;
-        background-color: #2e3238;
-        float: left;
-        width: 29%;
-        height: 100%;
-        .tab {
+        width: 260px;
+        background-color: @deepGray;
+        & > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .user-num {
+            font-size: 13px;
+            color: rgb(213, 213, 214);
+            padding: 14px 15px;
+        }
+        .search {
+            position: relative;
             height: 40px;
+            width: 230px;
+            border-radius: 5px;
+            margin: 15px auto;
+            font-size: 13px;
+            overflow: hidden;
             line-height: 40px;
-            border-top: @blackBorder;
-            border-bottom: @blackBorder;
-            div {
-                position: relative;
-                cursor: pointer;
-                float: left;
-                width: 50%;
-                .text-center;
-                &.active {
-                    background-color: rgb(100, 100, 100);
-                }
-                .unread {
-                    position: absolute;
-                    width: 5px;
-                    height: 5px;
-                    border-radius: 5px;
-                    background-color: @unreadColor;
-                    top: 8px;
-                    right: 8px;
-                }
+            input {
+                width: 100%;
+                height: 100%;
+                margin: auto;
+                padding: 0px 10px;
+                background-color: @textShallowGray;
+                color: white;
+                line-height: 40px;
+                .input;
             }
-            &:after {
-                .clear-both;
+            i {
+                color: white;
+                position: absolute;
+                top: 0px;
+                font-size: 16px;
+                right: 10px;
+                top: 11px;
             }
         }
-        .user-info {
-            height: 60px;
-            line-height: 60px;
-            padding: 0px 15px;
-        }
-        .user-list {
-            li {
+        .list {
+            flex: 1;
+            overflow-y: scroll;
+            & > li {
                 display: block;
                 position: relative;
                 cursor: pointer;
-                height: 50px;
+                height: 70px;
                 line-height: 50px;
-                padding: 0px 15px;
-                border-bottom: @blackBorder;
-                &.active {
-                    background-color: rgb(100, 100, 100);
+                padding: 10px 15px;
+                .avatar {
+                    float: left;
+                    margin-right: 15px;
+                    border: 4px solid @textMiddleGray;
                 }
-            }
-        }
-        .dialog-list {
-            li {
-                display: block;
-                position: relative;
-                cursor: pointer;
-                height: 50px;
-                line-height: 50px;
-                padding: 0px 15px;
-                border-bottom: @blackBorder;
-                &.active {
-                    background-color: rgb(100, 100, 100);
+                .name {
+                    width: 135px;
+                    overflow: hidden;
+                    float: left;
+                    line-height: 45px;
+                    color: @textLightGray;
+                    font-size: 15px;
                 }
                 .unread {
-                    position: absolute;
-                    right: 5px;
-                    top: 15px;
-                    bottom: 15px;
+                    top: 25px;
+                    right: 15px;
                     width: 20px;
+                    height: 20px;
                     line-height: 20px;
-                    border-radius: 5px;
-                    background-color: @unreadColor;
-                    .text-center;
+                    border-radius: 10px;
+                    font-size: 10px;
+                }
+                &.active {
+                    background-color: rgb(100, 100, 100);
+                }
+                &:after {
+                    .clear-both;
                 }
             }
         }
     }
     .right {
-        position: relative;
-        float: left;
-        width: 70%;
-        height: 100%;
-        .header {
-            height: 50px;
-            line-height: 50px;
-            padding: 5px 10px;
-            border-bottom: @grayBorder;
-            .text-center;
+        width: 640px;
+        background-color: @shallowGray;
+        & > div {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
-        .messages {
-            li {
-                padding: 5px 10px;
+        .dialog-content {
+            .header {
+                cursor: pointer;
+                height: 90px;
+                line-height: 50px;
+                padding: 15px 25px 25px 25px;
+                border-bottom: @whiteBorder;
+                & > div {
+                    float: left;
+                    &.dialog-name {
+                        line-height: 45px;
+                        font-size: 15px;
+                        color: @textDeepGray;
+                    }
+                    &.dialog-avatar {
+                        border: 4px solid @messageGreen;
+                        margin-right: 15px;
+                        .avatar;
+                    }
+                }
+                &:after {
+                    .clear-both;
+                }
+                .member-list {
+                    z-index: 999;
+                    transition: height .5s;
+                    background-color: white;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 90px;
+                    left: 0px;
+                    right: 0px;
+                    &:after {
+                        .clear-both;
+                    }
+                    .inner-wrap {
+                        height: 100%;
+                        overflow: scroll;
+                        padding: 15px 25px;
+                    }
+                }
+                .text-center;
+            }
+            .messages {
+                flex: 1;
+                overflow-y: scroll;
+                padding: 10px 25px;
+                position: relative;
+            }
+            .send {
+                height: 150px;
+                border-top: @whiteBorder;
+                padding: 20px 25px;
+                & > div {
+                    position: relative;
+                    textarea {
+                        width: 100%;
+                        height: 80px;
+                        background: white;
+                        padding: 20px;
+                        resize: none;
+                        color: @textShallowGray;
+                        font-size: 13px;
+                        .input;
+                    }
+                    .extra {
+                        position: relative;
+                        margin-top: 10px;
+                        input {
+                            width: 50px;
+                            cursor: pointer;
+                            position: absolute;
+                            opacity: 0;
+                        }
+                        .send-file-button {
+                            float: left;
+                            cursor: pointer;
+                            font-size: 14px;
+                            color: @textBlue;
+                            &:hover {
+                                color: @bgBlue;
+                            }
+                        }
+                        .send-button {
+                            cursor: pointer;
+                            float: right;
+                            font-size: 14px;
+                            color: @textBlue;
+                            font-weight: bold;
+                            &:hover {
+                                color: @bgBlue;
+                            }
+                        }
+                        &:after {
+                            .clear-both;
+                        }
+                    }
+                }
             }
         }
-    }
-    form {
-        position: absolute;
-        bottom: 1px;
-        background: white;
-        border-top: @grayBorder;
-        width: 100%;
-        height: 20%;
-        input {
-            height: 100%;
-            width: 100%;
-            padding: 5px;
-            border: none;
-            box-shadow: none;
-            &:focus {
-                box-shadow: none;
-                border: none;
-                outline: none;
+        .user-content {
+            .user-avatar {
+                width: 150px;
+                height: 150px;
+                border-radius: 150px;
+                border: 4px solid @textBlue;
+                overflow: hidden;
+                margin: auto;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .user-name {
+                font-size: 20px;
+                color: @textDeepGray;
+                .text-center;
+            }
+            .dialog-button {
+                .button;
+            }
+        }
+        .dialog-member {
+            .header {
+                padding: 15px 25px;
+                color: @textDeepGray;
+                border-bottom: @whiteBorder;
+                .text-center;
+            }
+            .list {
+                padding: 15px 25px;
+                .title {
+                    font-size: 13px;
+                    color: @textShallowGray;
+                    margin-bottom: 15px;
+                }
+            }
+            .create-button {
+                .button;
+                margin-bottom: 50px;
             }
         }
     }

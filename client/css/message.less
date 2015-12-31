@@ -1,0 +1,84 @@
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+}
+
+.one-message {
+    margin-bottom: 25px;
+    .title {
+        position: relative;
+        font-size: 12px;
+        div {
+            height: 18px;
+            line-height: 18px;
+            float: left;
+            &.point {
+                margin-top: 6px;
+                width: 6px;
+                height: 6px;
+                border-radius: 6px;
+                background-color: @messageGreen;
+            }
+            &.user-name {
+                color: @textDeepGray;
+                margin: 0px 10px 0px 15px;
+            }
+            &.send-time {
+                color: @textShallowGray;
+            }
+        }
+        &:after {
+            .clear-both;
+        }
+    }
+    .arrow-up {
+        border-bottom: 8px solid @messageGreen;
+        margin: 8px 8px 0px 8px;
+    }
+    .body {
+        white-space: normal;
+        width: 270px;
+        border-radius: 3px;
+        overflow: hidden;
+        padding: 15px 20px;
+        color: white;
+        background-color: @messageGreen;
+        font-size: 12px;
+        a {
+            float: right;
+            margin-left: 10px;
+            vertical-align: -1px;
+            color: white;
+            line-height: 18px;
+            i {
+                vertical-align: -2px;
+            }
+            &:hover {
+                color: @bgBlue;
+            }
+        }
+        &:after {
+            .clear-both;
+        }
+    }
+    &.my-message {
+        .title {
+            div {
+                float: right;
+                &.point {
+                    background-color: @textBlue;
+                }
+            }
+        }
+        .arrow-up {
+            border-bottom: 8px solid @textBlue;
+            float: right;
+        }
+        .body {
+            background-color: @textBlue;
+            float: right;
+        }
+    }
+}
