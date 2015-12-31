@@ -33,7 +33,6 @@ io.on('connection', function(socket) {
             } else {
                 var msg = file.params.msg;
                 msg.fileUrl = 'upload/' + file.name;
-
                 //如果不为讨论组的消息，且不是自己发给自己，则还要发自己一份
                 if (msg.dialog.did.indexOf('dialog') != 0 && msg.fromUser.id != msg.dialog.did) {
                     io.to(msg.fromUser.id).emit('chat-message', msg);
@@ -69,13 +68,13 @@ io.on('connection', function(socket) {
 
     //加入讨论组
     socket.on('join-dialog', function (did){
-        console.log('receive join dialog', did);
+        console.log('receive join dialog');
         socket.join(did);
     });
 
     //创建讨论组
     socket.on('create-dialog', function (users){
-        console.log('receive create dialog', users);
+        console.log('receive create dialog');
         var did = 'dialog';
         var name = '';
 
