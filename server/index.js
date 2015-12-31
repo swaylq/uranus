@@ -1,12 +1,21 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
-
+var dl  = require('delivery');
 var Server = require('socket.io');
+var fs  = require('fs');
+
 var io = new Server(http);
 var users = [];
 
+
 app.get('/', function(req, res) {
     res.send('<h1>Hello world</h1>');
+});
+
+app.get('/upload/:name', function(req, res){
+    var file = __dirname + '/upload/' + req.params.name;
+    res.download(file); // Set disposition and send it.
 });
 
 io.on('connection', function(socket) {
@@ -15,6 +24,25 @@ io.on('connection', function(socket) {
     //处理新用户
     var user = {name: 'vistor-' + socket.id, id: socket.id, avatar: null};
     var verify = false;
+    var delivery = dl.listen(socket);
+
+    delivery.on('receive.success',function(file){
+        fs.writeFile('upload/' + file.name, file.buffer, function(err){
+            if (err) {
+                console.log('File could not be saved.');
+            } else {
+                var msg = file.params.msg;
+                msg.fileUrl = 'upload/' + file.name;
+
+                //如果不为讨论组的消息，且不是自己发给自己，则还要发自己一份
+                if (msg.dialog.did.indexOf('dialog') != 0 && msg.fromUser.id != msg.dialog.did) {
+                    io.to(msg.fromUser.id).emit('chat-message', msg);
+                }
+                io.to(msg.dialog.did).emit('chat-message', msg);
+                console.log('File saved.');
+            };
+        });
+    });
 
     socket.on('get-user-list', function (){
         io.to(user.id).emit('user-list', users);

@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "An awesome chat tool",
   "dependencies": {
+    "delivery": "0.0.4",
     "express": "^4.10.2",
+    "fs": "0.0.2",
     "socket.io": "^1.3.7"
   }
 }

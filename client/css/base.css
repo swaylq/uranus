@@ -404,6 +404,24 @@ th {
   background-color: #62BF6E;
   font-size: 12px;
 }
+.one-message .body a {
+  float: right;
+  margin-left: 10px;
+  vertical-align: -1px;
+  color: white;
+  line-height: 18px;
+}
+.one-message .body a i {
+  vertical-align: -2px;
+}
+.one-message .body a:hover {
+  color: #B9DEEE;
+}
+.one-message .body:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 .one-message.my-message .title div {
   float: right;
 }
@@ -713,10 +731,10 @@ th {
   border-top: 2px solid white;
   padding: 20px 25px;
 }
-#chat .right .dialog-content .send form {
+#chat .right .dialog-content .send > div {
   position: relative;
 }
-#chat .right .dialog-content .send form textarea {
+#chat .right .dialog-content .send > div textarea {
   width: 100%;
   height: 80px;
   background: white;
@@ -728,25 +746,41 @@ th {
   box-shadow: none;
   outline: none;
 }
-#chat .right .dialog-content .send form textarea:focus {
+#chat .right .dialog-content .send > div textarea:focus {
   border: none;
   box-shadow: none;
   outline: none;
 }
-#chat .right .dialog-content .send form .extra {
+#chat .right .dialog-content .send > div .extra {
+  position: relative;
   margin-top: 10px;
 }
-#chat .right .dialog-content .send form .extra .send-button {
+#chat .right .dialog-content .send > div .extra input {
+  width: 50px;
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+}
+#chat .right .dialog-content .send > div .extra .send-file-button {
+  float: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #1792DE;
+}
+#chat .right .dialog-content .send > div .extra .send-file-button:hover {
+  color: #B9DEEE;
+}
+#chat .right .dialog-content .send > div .extra .send-button {
   cursor: pointer;
   float: right;
   font-size: 14px;
   color: #1792DE;
   font-weight: bold;
 }
-#chat .right .dialog-content .send form .extra .send-button:hover {
+#chat .right .dialog-content .send > div .extra .send-button:hover {
   color: #B9DEEE;
 }
-#chat .right .dialog-content .send form .extra:after {
+#chat .right .dialog-content .send > div .extra:after {
   content: "";
   display: table;
   clear: both;

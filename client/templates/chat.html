@@ -115,19 +115,24 @@
                         </div>
                         <div class="clear-both"></div>
                         <div class="body">
-                            {{message.content}}
+                            文件：[{{message.content}}]
+                            <a target="_blank" ng-show="message.fileUrl" href="{{message.fileUrl}}"><i class="fa fa-download"></i></a>
                         </div>
                         <div class="clear-both"></div>
                     </li>
                 </ul>
             </div>
             <div class="send">
-                <form>
+                <div>
                     <textarea placeholder="请输入消息" autocomplete="off" ng-model="sendMessage"></textarea>
                     <div class="extra">
+                        <div class="send-file-button">
+                            <input id="sendFile" name="file" type="file"/>
+                            <i class="fa fa-file-o"></i>
+                        </div>
                         <a class="send-button" ng-click="send();" type="submit">发送</a>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="user-content" ng-show="tab=='users'">

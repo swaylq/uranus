@@ -46,6 +46,22 @@
         color: white;
         background-color: @messageGreen;
         font-size: 12px;
+        a {
+            float: right;
+            margin-left: 10px;
+            vertical-align: -1px;
+            color: white;
+            line-height: 18px;
+            i {
+                vertical-align: -2px;
+            }
+            &:hover {
+                color: @bgBlue;
+            }
+        }
+        &:after {
+            .clear-both;
+        }
     }
     &.my-message {
         .title {

@@ -1,3 +1,5 @@
+var baseUrl = 'http://localhost:3000/';
+
 function getRandomNum() {
     return parseInt(Math.random() * 12 + 1, 10);
 }
@@ -135,6 +137,34 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
         $scope.sendMessage = '';
     };
 
+    var delivery = new Delivery(socket);
+    delivery.on('delivery.connect', function(delivery) {
+        $('#sendFile').on('change', function() {
+            if ($scope.currentDialog.did) {
+                var file = $(this)[0].files[0];
+                if (file) {
+                    var msg = {
+                        fromUser: $scope.me,
+                        dialog: {
+                            name: $scope.currentDialog.name,
+                            avatar: $scope.currentDialog.avatar,
+                            did: $scope.currentDialog.did
+                        },
+                        content: file.name,
+                        time: moment(new Date()).format('a h:mm:ss')
+                    };
+                    var extraParams = {
+                        foo: 'bar',
+                        msg: msg
+                    };
+                    console.log('send file');
+                    $(this).val(null);
+                    delivery.send(file, extraParams);
+                }
+            }
+        });
+    });
+
     //获取用户信息
     socket.emit('get-user-info');
     socket.emit('get-user-list');
@@ -149,7 +179,10 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
     socket.on('chat-message', function(msg) {
         console.log('recieve chat message', msg);
         //如果不是自己发的，才去更新消息
-        if (msg.fromUser.id != $scope.me.id) {
+        if (msg.fromUser.id != $scope.me.id || msg.fileUrl) {
+            if (msg.fileUrl) {
+                msg.fileUrl = baseUrl + msg.fileUrl;
+            }
             var defaultDialog = {};
             //如果不为讨论组的对话，则根据fromUser来寻找或生成对话
             if (msg.dialog.did == $scope.me.id) {
@@ -266,7 +299,7 @@ uranus.controller('ChatCtrl', ['$scope', '$state', '$timeout', function($scope, 
 }]);
 
 uranus.controller('LoginCtrl', ['$scope', '$state', function($scope, $state) {
-    socket = io('http://localhost:3000');
+    socket = io(baseUrl);
     $scope.user = {};
     $scope.submit = function() {
         $scope.user.avatar = 'images/default' + getRandomNum() + '.jpg';
