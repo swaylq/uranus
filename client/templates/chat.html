@@ -115,7 +115,7 @@
                         </div>
                         <div class="clear-both"></div>
                         <div class="body">
-                            文件：[{{message.content}}]
+                            {{message.fileUrl ? '文件：[' + message.content + ']' : message.content}}
                             <a target="_blank" ng-show="message.fileUrl" href="{{message.fileUrl}}"><i class="fa fa-download"></i></a>
                         </div>
                         <div class="clear-both"></div>
