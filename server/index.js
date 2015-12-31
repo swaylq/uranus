@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
 
 app.get('/upload/:name', function(req, res){
     var file = __dirname + '/upload/' + req.params.name;
-    res.download(file); // Set disposition and send it.
+    res.download(file);
 });
 
 io.on('connection', function(socket) {
