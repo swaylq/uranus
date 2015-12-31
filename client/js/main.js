@@ -1,4 +1,4 @@
-var baseUrl = 'http://139.196.192.129:3000';
+var baseUrl = 'http://139.196.192.129:3000/';
 
 function getRandomNum() {
     return parseInt(Math.random() * 12 + 1, 10);
